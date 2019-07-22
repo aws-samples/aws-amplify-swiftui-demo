@@ -7,5 +7,7 @@ target 'twitchConferences' do
 
   # Pods for twitchConferences
   pod 'AWSAppSync'
+  pod 'AWSPinpoint'
+  pod 'AWSMobileClient'
   
 end

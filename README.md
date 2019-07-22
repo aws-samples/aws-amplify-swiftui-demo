@@ -130,8 +130,8 @@ Build the project (Command-B) to make sure we don't have any compile errors.
 Add these lines to your AppDelegate file, to configure your AppSync Client.
 
 ```swift
-@import UIKit
-@import AWSAppSync
+import UIKit
+import AWSAppSync
 ...
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -455,6 +455,82 @@ After the `.listStyle` we will be adding some Navigation Bar items. This first i
 ```
 
 And there we go! Now we can add talks to our list of talks.
+
+## Analytics
+
+### Back into the terminal
+
+First lets us go back to our terminal and add some the backend to create some Analytics.
+
+Run this command:
+
+```bash
+amplify add analytics
+```
+
+Using service: Pinpoint, provided by: awscloudformation
+- Provide your pinpoint resource name: __iosamplifyapp__
+- Apps need authorization to send analytics events. Do you want to allow guests and unauthenticated users to send anal
+ytics events? (we recommend you allow this when getting started) __Yes__
+
+Then run
+```bash
+amplify push
+```
+
+And confirm to add this to your backend.
+
+Now you are adding some basic analytics to your application.
+
+Open your podfile and add this line under the AppSync dependancy.
+
+```
+pod 'AWSPinpoint'
+pod 'AWSMobileClient'
+```
+
+and run 
+
+```bash
+pod install
+```
+
+### Back into Xcode
+
+### AppDelegate.swift
+
+Add these lines to your AppDelegate file, to configure your AppSync Client.
+
+```swift
+import AWSAppSync
+import AWSPinpoint
+import AWSMobileClient
+...
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+    public var appSyncClient: AWSAppSyncClient!
+    public var pinpoint: AWSPinpoint?
+...
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        ...
+        AWSMobileClient.sharedInstance().initialize { (userState, error) in
+          if let error = error {
+	    print("Error initializing AWSMobileClient: \(error.localizedDescription)")
+          } else if let userState = userState {
+	    print("AWSMobileClient initialized. Current UserState: \(userState.rawValue)")
+          }
+        }
+
+        // Initialize Pinpoint
+        let pinpointConfiguration = AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions)
+        pinpoint = AWSPinpoint(configuration: pinpointConfiguration)
+        return true
+    }
+```
+
+Now we are rocking and a rolling with Analytics!
+
 
 ## License Summary
 
