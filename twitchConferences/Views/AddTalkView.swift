@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  AddTalkView.swift
 //  twitchConferences
 //
 //  Created by Sam Patzer on 7/22/19.
@@ -8,16 +8,19 @@
 
 import SwiftUI
 
-struct ContentView : View {
+struct AddTalkView : View {
+    @Binding var talk : CreateTalkInput
+    @EnvironmentObject var talkStore : TalkStore
+    @Binding var isShowing : StateOfCreation
     var body: some View {
         Text("Hello World")
     }
 }
 
 #if DEBUG
-struct ContentView_Previews : PreviewProvider {
+struct AddTalkView_Previews : PreviewProvider {
     static var previews: some View {
-        ContentView()
+        AddTalkView()
     }
 }
 #endif
